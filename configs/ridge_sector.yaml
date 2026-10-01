@@ -1,0 +1,31 @@
+model: ridge
+target: drtn_1m
+target_transform: gauss_sector
+sector_level: sector           # sector | industry_group | industry | sub_industry
+min_obs_frac: 0.5
+
+features:
+  factors: all                 # list | all | {categories: [...]}
+  max_sentinel_frac: 0.5       # drop factors that are missing more often than this in raw
+  lags: [3, 12]
+  change_lags: [3, 12]
+  lag_factors: [mom1, mom12, mom12_1, vola60, tover, illiq, bp_act, ep_act, ep_est, roe_act, rev1r, rev3r, dp_act, fcfp]
+  change_factors: [bp_act, ep_act, ep_est, roe_act, roa_act, prof, ni_ta, sales_grw, td_ta, dp_act, fcfp, doe]
+  rank: uniform
+
+walkforward:
+  first_retrain: "2012-12-31"
+  retrain_every: 12
+  window: expanding
+  train_start: "2007-01-31"
+  val_months: 12
+  embargo_months: null         # null -> target horizon
+
+params:
+  alphas: [1, 10, 100, 1000, 10000]
+
+eval:
+  targets: [drtn_1m, gp_trtn_1m, drtn_1m_s1, drtn_1m_s2, drtn_3m, srtn_1m]
+  spread_target: drtn_1m
+  n_quantiles: 5
+  smooth_halflives: [0, 1, 2, 3, 6]   # EMA half-life in months; 0 = raw score

@@ -1,0 +1,43 @@
+[project]
+name = "india-ai-model"
+version = "0.1.0"
+description = "India equity AI score (MSCI India IMI, monthly rank-IC alpha)"
+readme = "README.md"
+authors = [
+    { name = "yurukatsu", email = "yuruyuru.kaihatsu@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "lightgbm>=4.6.0",
+    "numpy>=2.5.3",
+    "pandas>=3.0.6",
+    "pyarrow>=25.0.1",
+    "pyyaml>=6.0.3",
+    "scikit-learn>=1.9.1",
+    "scipy>=1.18.1",
+    "torch>=2.14.0",
+]
+
+[project.scripts]
+build-mart = "india_ai_model.build_mart:main"
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.16.9",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B", "UP", "NPY", "PD"]
+ignore = ["PD010", "PD013", "E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

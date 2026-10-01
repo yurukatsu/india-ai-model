@@ -1,0 +1,7 @@
+model: ensemble
+target: drtn_1m
+members:
+- runs/lgbm_reg_peer_cpr/exp
+- runs/dnn_peer_na_cpr_s10/exp
+ic_weighted: false
+ic_window: 24
